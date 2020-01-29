@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IR Light Controller</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+</head>
+
+<script>
+    function handle_show(show){
+        alert("Playing show " + show + ", browser will hang");
+    }
+</script>
+
+<body>Buttons</body>
+
+{#Button#}
+{% for button, color in styles.items() %}
+    <form action="/button" method="POST">
+        <input type="submit" name="button" id="color_button" value="{{ button.capitalize() }}" style="background-color: {{ color }}">
+    </form>
+{% endfor %}
+
+
+<body>Shows</body>
+
+{#Dropdown#}
+<body>
+    <form action="/show" method="POST">
+        <select id="show_select" name="show_select">
+            {% for show in shows %}
+                <option value='{{ show }}'>{{ show }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" id="show_button" name="show_submit" value="View Show" onclick="handle_show(document.getElementById('show_select').value)">
+    </form>
+</body>
+</html>

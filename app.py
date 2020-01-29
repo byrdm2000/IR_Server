@@ -1,0 +1,59 @@
+from flask import Flask, request, render_template
+from config import Config
+import json
+import time
+from os import listdir
+
+app = Flask(__name__)
+app.config.from_object(Config)
+
+
+def change_color(color):
+    """
+    Changes color through GPIO
+    :param color: String, Color/Button to send to lights
+    """
+    signal = Config.BUTTON_SIGNAL_LOOKUP.get(color)
+    if signal is not None:
+        # do some gpio stuff (eventually)
+        print("sending", signal)
+
+
+@app.route('/')
+@app.route('/index')
+def index():
+    buttons = Config.COLORS
+    button_styles = Config.BUTTON_HEX_LOOKUP
+    shows = listdir('shows')
+    return render_template('index.html', title='Home', buttons=buttons, shows=shows, styles=button_styles)
+
+
+@app.route('/button', methods=["POST"])
+def button_handler():
+    button = request.form.get("button", None)
+    if button:
+        change_color(button.lower())
+    return index()
+
+
+@app.route('/show', methods=['POST'])
+def show():
+    show_file = request.form.get("show_select", None)
+    if show_file:
+        print("Viewing show", show_file)
+        show_file_path = "shows/" + show_file
+        with open(show_file_path) as open_show:
+            show_data = open_show.read()
+        light_show = json.loads(show_data)
+        for step in light_show:
+            color = step.get('color')
+            duration = step.get('duration')
+            change_color(color)
+            time.sleep(duration)
+    return index()
+
+# TODO: Get signals for IR lookup, add gpio
+
+
+if __name__ == '__main__':
+    app.run()
