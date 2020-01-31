@@ -1,12 +1,7 @@
 class Config:
     SECRET_KEY = 'changme'
 
-    BUTTON_SIGNAL_LOOKUP = {
-        'red': 0,
-        'green': 2,
-        'blue': 1,
-        'white': 3,
-    }
+    LIRC_REMOTE_CONF_PATH = "Govee_RGB_LED_Remote.lircd.conf"
 
     BUTTON_HEX_LOOKUP = {
         'red': '#ff0000',
@@ -14,5 +9,3 @@ class Config:
         'blue': '#0000ff',
         'white': '#ffffff',
     }
-
-    COLORS = BUTTON_SIGNAL_LOOKUP.keys()

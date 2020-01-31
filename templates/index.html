@@ -15,7 +15,7 @@
 <body>Buttons</body>
 
 {#Button#}
-{% for button, color in styles.items() %}
+{% for button in buttons %}
     <form action="/button" method="POST">
         <input type="submit" name="button" id="color_button" value="{{ button.capitalize() }}" style="background-color: {{ color }}">
     </form>
