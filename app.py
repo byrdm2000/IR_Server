@@ -4,6 +4,7 @@ import json
 import time
 from os import listdir
 import re
+import subprocess
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -15,6 +16,7 @@ def change_color(color):
     :param color: String, Color/Button to send to lights
     """
     print("sending", color)
+    return subprocess.call(["irsend", "SEND_ONCE", Config.REMOTE, color])
 
 
 def parse_config():
