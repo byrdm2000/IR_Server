@@ -1,3 +1,6 @@
+import lirc_handler
+
+
 class Config:
     SECRET_KEY = 'changme'
 
@@ -11,3 +14,5 @@ class Config:
         'blue': '#0000ff',
         'white': '#ffffff',
     }
+
+    COLORS = lirc_handler.parse_config()
