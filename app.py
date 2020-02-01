@@ -15,7 +15,10 @@ def change_color(color):
     :param color: String, Color/Button to send to lights
     """
     print("sending", color)
-    return subprocess.call(["irsend", "SEND_ONCE", LircConfig.REMOTE, color])
+    try:
+        subprocess.call(["irsend", "SEND_ONCE", LircConfig.REMOTE, color])
+    except subprocess.TimeoutExpired:  # Timeout occurs around .13 second duration interval, .14 is safe
+        pass
 
 
 @app.route('/')
