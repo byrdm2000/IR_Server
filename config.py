@@ -1,13 +1,19 @@
 import re
 
 
+class LircConfig:
+    LIRC_REMOTE_CONF_PATH = "Govee_RGB_LED_Remote.lircd.conf"
+
+    REMOTE = LIRC_REMOTE_CONF_PATH.split(".")[0]
+
+
 def parse_config():
     """
     Parses the LIRC config file
     :return: List, of all buttons specified in LIRC
     """
     buttons = []
-    with open(Config.LIRC_REMOTE_CONF_PATH) as lirc_conf:
+    with open(LircConfig.LIRC_REMOTE_CONF_PATH) as lirc_conf:
         for line in lirc_conf:
             m = re.match('^\s*(\S*)\s*(?=0x00)', line)  # matches lines with 0x00 in them, puts non-whitespace in group
             if m is not None:
@@ -17,10 +23,6 @@ def parse_config():
 
 class Config:
     SECRET_KEY = 'changme'
-
-    LIRC_REMOTE_CONF_PATH = "Govee_RGB_LED_Remote.lircd.conf"
-
-    REMOTE = LIRC_REMOTE_CONF_PATH.split(".")[0]
 
     BUTTON_HEX_LOOKUP = {
         'red': '#ff0000',

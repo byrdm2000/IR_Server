@@ -1,9 +1,8 @@
 from flask import Flask, request, render_template
-from config import Config
+from config import Config, LircConfig
 import json
 import time
 from os import listdir
-import re
 import subprocess
 
 app = Flask(__name__)
@@ -16,13 +15,13 @@ def change_color(color):
     :param color: String, Color/Button to send to lights
     """
     print("sending", color)
-    return subprocess.call(["irsend", "SEND_ONCE", Config.REMOTE, color])
+    return subprocess.call(["irsend", "SEND_ONCE", LircConfig.REMOTE, color])
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    buttons = parse_config()
+    buttons = Config.COLORS
     # button_styles = {button:Config.BUTTON_HEX_LOOKUP.get(button.lower(), '#a9a9a9') for button in buttons}
     button_styles = Config.BUTTON_HEX_LOOKUP
     shows = listdir('shows')
