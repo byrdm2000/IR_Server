@@ -9,14 +9,15 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 
-def change_color(color):
+def change_color(color, timeout=None):
     """
     Changes color through GPIO
     :param color: String, Color/Button to send to lights
+    :param timeout: Float, determines when to stop waiting for lights to respond (used for shows)
     """
     print("sending", color)
     try:
-        return subprocess.call(["irsend", "SEND_ONCE", LircConfig.REMOTE, color])
+        return subprocess.call(["irsend", "SEND_ONCE", LircConfig.REMOTE, color], timeout=timeout)
     except subprocess.TimeoutExpired:  # Timeout occurs around .13 second duration interval, .14 is safe
         print("reached timeout")
 
