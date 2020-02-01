@@ -16,9 +16,9 @@ def change_color(color):
     """
     print("sending", color)
     try:
-        subprocess.call(["irsend", "SEND_ONCE", LircConfig.REMOTE, color])
+        return subprocess.call(["irsend", "SEND_ONCE", LircConfig.REMOTE, color])
     except subprocess.TimeoutExpired:  # Timeout occurs around .13 second duration interval, .14 is safe
-        pass
+        print("reached timeout")
 
 
 @app.route('/')
