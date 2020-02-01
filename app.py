@@ -52,7 +52,7 @@ def show():
         for step in light_show:
             color = step.get('color')
             duration = step.get('duration')
-            change_color(color)
+            change_color(color, duration)
             time.sleep(duration)
     return index()
 
